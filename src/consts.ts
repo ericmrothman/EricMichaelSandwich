@@ -32,14 +32,14 @@ export const SocialLinks = [
 export const WebsiteLinks = [
 	{
 		name: 'Home',
-		url: '',
+		url: '/',
 	},
 	{
 		name: 'Blog',
-		url: 'blog',
+		url: '/blog',
 	},
 	{
 		name: 'About',
-		url: 'about',
+		url: '/about',
 	},
 ]
