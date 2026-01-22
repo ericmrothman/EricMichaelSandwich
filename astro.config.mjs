@@ -16,7 +16,12 @@ export default defineConfig({
 	integrations: [
 		mdx(),
 		sitemap(),
-		icon(),
+		icon({
+			include: {
+				mdi: ['*'], // Allows all Material Design Icons
+				'fluent-emoji-high-contrast': ['*'], // Allows all Fluent Emoji High Contrast icons
+			},
+		}),
 		partytown({
 			config: {
 				forward: ['dataLayer.push'],

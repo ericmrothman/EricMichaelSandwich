@@ -5,6 +5,8 @@ import type { MarkdownHeading, ImageMetadata } from 'astro'
 import TableOfContents from '../components/TableOfContents.astro'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+// 1. Import the new constant
+import { BUNNY_EMBED_URL } from '../consts'
 
 dayjs.extend(utc)
 
@@ -14,6 +16,7 @@ type Props = CollectionEntry<'work'>['data'] & {
 	remarkPluginFrontmatter: Record<string, string>
 }
 
+// 2. Add 'bunnyVideoId' to the destructured props
 const {
 	title,
 	description,
@@ -23,6 +26,7 @@ const {
 	headings,
 	slug,
 	remarkPluginFrontmatter,
+	bunnyVideoId,
 } = Astro.props
 
 import BaseLayout from './BaseLayout.astro'
@@ -38,40 +42,60 @@ const coverImagePath = `/src/assets/blogimages/${slug}/cover.jpg`
 const lastModified = dayjs(remarkPluginFrontmatter.lastModified)
 	.utc()
 	.format('D MMM YYYY')
+
+// 3. Create the Embed URL string
+// Result looks like: https://iframe.mediadelivery.net/embed/585022/video-id-here
+const videoEmbedUrl = bunnyVideoId ? `${BUNNY_EMBED_URL}/${bunnyVideoId}` : null
 ---
 
 <BaseLayout title={title} description={description}>
 	<main>
 		<article>
 			<div
-				class="app-container flex flex-col lg:flex-row-reverse justify-between gap-8 py-24 relative"
+				class="app-container flex flex-col lg:flex-row-reverse justify-between gap-8 py-40 relative"
 			>
-				<div class="md:w-1/4 relative">
-				</div>
+				<div class="md:w-1/4 relative"></div>
+
 				<div class="grow w-full md:max-w-[75ch]">
+					{
+						videoEmbedUrl && (
+							<div class="relative w-full aspect-video bg-black rounded-xl overflow-hidden mb-8 shadow-xl">
+								<iframe
+									src={`${videoEmbedUrl}?autoplay=false&loop=false&muted=false&preload=true`}
+									loading="lazy"
+									class="absolute top-0 left-0 w-full h-full border-0"
+									allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+									allowfullscreen="true"
+								/>
+							</div>
+						)
+					}
+
 					<div>
-						<h1 class="text-4xl sm:text-5xl leading-snug pt-12 font-bold">
+						<h1 class="text-4xl sm:text-5xl leading-snug pt-0 font-bold">
 							{title}
 						</h1>
-						<div class="text-lg flex items-center gap-4 flex-wrap py-8">
-						{
-							blogImages[coverImagePath] && (
-								<>
-									<Image
-										src={blogImages[coverImagePath]()}
-										alt={title}
-										class="rounded-lg"
-									/>
-								</>
-							)
-						}
-					</div>
-					<div
-						class="prose prose-neutral prose-lg md:prose-xl dark:prose-invert prose-img:rounded-xl prose-figure:text-center prose-img:mx-auto"
-					>
-						<slot />
-					</div>
 
+						<div class="text-lg flex items-center gap-4 flex-wrap py-8">
+							{
+								blogImages[coverImagePath] && (
+									<>
+										<Image
+											src={blogImages[coverImagePath]()}
+											alt={title}
+											class="rounded-lg"
+										/>
+									</>
+								)
+							}
+						</div>
+
+						<div
+							class="prose prose-neutral prose-lg md:prose-xl dark:prose-invert prose-img:rounded-xl prose-figure:text-center prose-img:mx-auto"
+						>
+							<slot />
+						</div>
+					</div>
 				</div>
 			</div>
 		</article>

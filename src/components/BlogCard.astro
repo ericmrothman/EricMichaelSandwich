@@ -1,54 +1,68 @@
 ---
-import { SITE_BASE } from '@/consts'
+// src/components/BlogCard.astro
+import { SITE_BASE, VIDEO_CDN_URL } from '../consts'
 import FormattedDate from './FormattedDate.astro'
-import type { ImageMetadata } from 'astro'
-import { Image } from 'astro:assets'
 
 const { post } = Astro.props
 
-const blogImages = import.meta.glob<{ default: ImageMetadata }>(
-	'/src/assets/blogimages/**/*.{jpeg,jpg,png,gif}'
-)
+// 1. Determine the Video URL
+// Priorities:
+// A. 'videoLoop' (The unique filename we just set up)
+// B. 'videoPath' (The old folder method, just in case)
+let videoSrc = null
 
-const blogVideos = import.meta.glob<{ default: string }>(
-  '/src/assets/blogimages/**/*.mp4'
-)
-
-const coverImagePath = `/src/assets/blogimages/${post.slug}/cover.jpg`
-const videoPath = `/src/assets/blogimages/${post.slug}/cover.mp4`
-let videoSrc = null;
-if (blogVideos[videoPath]) {
-  const mod = await blogVideos[videoPath]();
-  videoSrc = mod.default;
+if (post.data.videoLoop) {
+	videoSrc = `${VIDEO_CDN_URL}/${post.data.videoLoop}`
+} else if (post.data.videoPath) {
+	videoSrc = `${VIDEO_CDN_URL}/${post.data.videoPath}/loop.mp4`
 }
 ---
 
 <a
-  href={`${SITE_BASE}/work/${post.slug}/`}
-  class="flex flex-col gap-4 pb-8 h-full group transition-colors"
+	href={`${SITE_BASE}/work/${post.slug}/`}
+	class="flex flex-col gap-4 pb-8 h-full group transition-colors"
 >
-  {videoSrc ? (
-    <video
-      src={videoSrc}
-      class="object-cover rounded-xl aspect-video w-full"
-      autoplay
-      loop
-      muted
-      playsinline
-    ></video>
-  ) : (
-     /* Optional Fallback */
-    <div class="bg-gray-100 rounded-xl aspect-video flex items-center justify-center text-gray-400">
-      No Video
-    </div>
-  )}
+	<div
+		class="relative overflow-hidden rounded-xl aspect-video bg-gray-100 dark:bg-white/5"
+	>
+		{
+			videoSrc ? (
+				<video
+					src={videoSrc}
+					class="object-cover w-full h-full"
+					autoplay
+					loop
+					muted
+					playsinline
+				/>
+			) : (
+				<div class="w-full h-full flex items-center justify-center text-muted-foreground">
+					No Preview
+				</div>
+			)
+		}
+	</div>
+
 	<h4
-		class="text-2xl font-semibold group-hover:text-primary dark:group-hover:text-primary-dark group-hover:underline transition-colors"
+		class="text-2xl font-semibold group-hover:text-primary dark:group-hover:text-primary-dark transition-colors"
 	>
 		{post.data.title}
 	</h4>
+
 	<p class="line-clamp-3 opacity-80">
 		{post.data.description}
 	</p>
 
+	<div class="mt-auto flex flex-wrap items-center gap-3">
+		<div class="flex flex-wrap gap-2">
+			{
+				post.data.tags &&
+					post.data.tags.map((tag: string) => (
+						<span class="text-xs font-medium px-2 py-1 rounded-md bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 capitalize">
+							{tag}
+						</span>
+					))
+			}
+		</div>
+	</div>
 </a>

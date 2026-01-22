@@ -8,6 +8,9 @@ const work = defineCollection({
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		coverImageCredit: z.string().optional(),
+		tags: z.array(z.string()).default(['misc']),
+		videoLoop: z.string().optional(),
+		bunnyVideoId: z.string().optional(),
 	}),
 })
 

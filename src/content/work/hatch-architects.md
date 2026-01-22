@@ -1,8 +1,8 @@
 ---
 title: 'Hatch Architects Design Center'
 description: |
-tags: 'Non-profit'
-pubDate: 'Jan 1 2026'
+tags: ['non-profit', 'grant asset']
+pubDate: 'Jan 1 2024'
 coverImageCredit: ''
 ---
 

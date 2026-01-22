@@ -6,9 +6,41 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 const posts = (await getCollection('work')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 )
+const allPosts = await getCollection('work')
+allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+const categories = [
+	{ id: 'commercial', label: 'Commercial' },
+	{ id: 'non-profit', label: 'Non-Profit' },
+	{ id: 'personal', label: 'Personal' },
+	{ id: 'misc', label: 'Miscellaneous' },
+]
 ---
 
 <BaseLayout>
+	<div class="app-container py-12 space-y-20">
+		{
+			categories.map((category) => {
+				// Filter posts for this specific category
+				const categoryPosts = allPosts.filter((post) =>
+					post.data.tags.includes(category.id)
+				)
+
+				// Only render the section if there are posts in it
+				if (categoryPosts.length === 0) return null
+
+				return (
+					<section>
+						<h2 class="text-3xl font-bold mb-8 capitalize">{category.label}</h2>
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+							{categoryPosts.map((post) => (
+								<BlogCard post={post} />
+							))}
+						</div>
+					</section>
+				)
+			})
+		}
+	</div>
 	<main class="app-container pt-36">
 		<h1 class="text-6xl pb-8 font-bold">Work</h1>
 		<p class="md:w-2/3 text-lg leading-[2rem]">

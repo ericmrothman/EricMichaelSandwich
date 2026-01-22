@@ -5,9 +5,8 @@ import { Icon } from 'astro-icon/components'
 import BlogCard from '../components/BlogCard.astro'
 import { getCollection } from 'astro:content'
 
-const posts = (await getCollection('work'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 4)
+const posts = await getCollection('work')
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 ---
 
 <BaseLayout>
@@ -18,94 +17,89 @@ const posts = (await getCollection('work'))
 			<p class="block text-3xl opacity-70 mt-9 mb-4"></p>
 			<h1 class="text-8xl font-bold leading-none">Eric Rothman</h1>
 		</div>
+
 		<p class="text-2xl max-w-2xl font-light leading-normal">
-			is a multidisciplinary filmmaker based in Dayton, Ohio. He produces films for non-profits and mission-driven organizations. He is currently exploring independent projects in data visualization and web design.
+			is a multidisciplinary filmmaker based in Dayton, Ohio. He produces films
+			for non-profits and mission-driven organizations.
 		</p>
+
 		<div class="flex flex-wrap gap-8">
-			{
-				SocialLinks.map((link) => (
-					<a
-						class="text-xl text-primary dark:text-primary-dark underline hover:underline underline-offset-4"
-						href={link.url}
-						target="_blank"
+			<div class="flex flex-col items-start gap-2">
+				<button
+					id="copy-email-btn"
+					class="group relative flex items-center gap-2 text-left hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
+					aria-label="Copy email address"
+				>
+					<span
+						id="default-state"
+						class="flex items-center gap-2 transition-opacity duration-300"
 					>
-						{link.name}
-					</a>
-				))
-			}
+						<span>ericmrothman@gmail.com</span>
+						<Icon name="mdi:email" class="w-5 h-5" />
+					</span>
+
+					<span
+						id="copied-state"
+						class="absolute inset-0 flex items-center gap-2 text-green-600 opacity-0 pointer-events-none transition-opacity duration-300"
+					>
+						<span>Copied!</span>
+						<Icon name="mdi:check" class="w-5 h-5" />
+					</span>
+				</button>
+
+				<a
+					href="tel:7185783942"
+					class="flex items-center gap-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+				>
+					<span>718.578.3942</span>
+					<Icon name="mdi:phone" class="w-5 h-5" />
+				</a>
+
+				{
+					SocialLinks.map((link) => (
+						<a
+							class="flex items-center gap-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+							href={link.url}
+							target="_blank"
+						>
+							<span>{link.name}</span>
+							<Icon name={link.icon} class="w-5 h-5" />
+						</a>
+					))
+				}
+			</div>
 		</div>
+
+		<script>
+			const copyBtn = document.getElementById('copy-email-btn')
+			const defaultState = document.getElementById('default-state')
+			const copiedState = document.getElementById('copied-state')
+
+			if (copyBtn && defaultState && copiedState) {
+				copyBtn.addEventListener('click', () => {
+					// Copy to clipboard
+					navigator.clipboard.writeText('ericmrothman@gmail.com')
+
+					// Swap opacity to show "Copied!"
+					defaultState.classList.add('opacity-0')
+					copiedState.classList.remove('opacity-0')
+
+					// Reset after 2 seconds
+					setTimeout(() => {
+						defaultState.classList.remove('opacity-0')
+						copiedState.classList.add('opacity-0')
+					}, 2000)
+				})
+			}
+		</script>
 	</main>
 
 	<!-- Recent Posts Section -->
-	<section class="app-container">
+	<section class="app-container mb-32">
 		<h2 class="section-title">Featured Work</h2>
+
 		<div class="posts-grid-container">
 			{posts.map((post) => <BlogCard post={post} />)}
 		</div>
-		<a class="btn-secondary" href={`${SITE_BASE}/work`}
-			>Read All
-			<Icon size={20} name="mdi:arrow-right" />
-		</a>
 	</section>
-
-	<!-- Recent Posts Section -->
-	<section class="app-container py-42 grid lg:grid-cols-2 gap-28 lg:gap-10">
-
-<div class="space-y-6">
-  <h2 class="section-title">Get in touch</h2>
-
-  <div class="flex flex-col items-start gap-2">
-    
-    <button
-      id="copy-email-btn"
-      class="group relative flex items-center gap-2 text-left hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
-      aria-label="Copy email address"
-    >
-      <span id="default-state" class="flex items-center gap-2 transition-opacity duration-300">
-        <span>ericmrothman@gmail.com</span>
-        <Icon name="mdi:email" class="w-5 h-5" />
-      </span>
-
-      <span
-        id="copied-state"
-        class="absolute inset-0 flex items-center gap-2 text-green-600 opacity-0 pointer-events-none transition-opacity duration-300"
-      >
-        <span>Copied!</span>
-        <Icon name="mdi:check" class="w-5 h-5" />
-      </span>
-    </button>
-
-    <a 
-      href="tel:7185783942" 
-      class="flex items-center gap-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-    >
-      <span>718.578.3942</span>
-      <Icon name="mdi:phone" class="w-5 h-5" />
-    </a>
-
-  </div>
-</div>
-
-<script>
-  const copyBtn = document.getElementById('copy-email-btn');
-  const defaultState = document.getElementById('default-state');
-  const copiedState = document.getElementById('copied-state');
-
-  if (copyBtn && defaultState && copiedState) {
-    copyBtn.addEventListener('click', () => {
-      // Copy to clipboard
-      navigator.clipboard.writeText('ericmrothman@gmail.com');
-
-      // Swap opacity to show "Copied!"
-      defaultState.classList.add('opacity-0');
-      copiedState.classList.remove('opacity-0');
-      
-      // Reset after 2 seconds
-      setTimeout(() => {
-        defaultState.classList.remove('opacity-0');
-        copiedState.classList.add('opacity-0');
-      }, 2000);
-    });
-  }
-</script>	</section>
 </BaseLayout>
