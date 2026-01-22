@@ -8,7 +8,7 @@ import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(utc)
 
-type Props = CollectionEntry<'blog'>['data'] & {
+type Props = CollectionEntry<'work'>['data'] & {
 	headings: MarkdownHeading[]
 	slug: string
 	remarkPluginFrontmatter: Record<string, string>
@@ -47,9 +47,6 @@ const lastModified = dayjs(remarkPluginFrontmatter.lastModified)
 				class="app-container flex flex-col lg:flex-row-reverse justify-between gap-8 py-24 relative"
 			>
 				<div class="md:w-1/4 relative">
-					<div class="sticky top-0 md:top-28 hidden lg:block">
-						<TableOfContents headings={headings} />
-					</div>
 				</div>
 				<div class="grow w-full md:max-w-[75ch]">
 					<div>
@@ -57,38 +54,6 @@ const lastModified = dayjs(remarkPluginFrontmatter.lastModified)
 							{title}
 						</h1>
 						<div class="text-lg flex items-center gap-4 flex-wrap py-8">
-							<!-- Publish date -->
-							<span>
-								<Icon
-									name="mdi:calendar-month-outline"
-									class="inline-block text-primary dark:text-primary-dark"
-								/>
-								<FormattedDate date={pubDate} />
-							</span>
-
-							<!-- Updated date -->
-							{
-								updatedDate && (
-									<span>
-										<Icon
-											name="mdi:calendar-refresh-outline"
-											class="inline-block text-primary dark:text-primary-dark"
-										/>
-										Last updated on <FormattedDate date={updatedDate} />
-									</span>
-								)
-							}
-
-							<!-- Read time -->
-							<span>
-								<Icon
-									name="mdi:clock-time-four-outline"
-									class="inline-block text-primary dark:text-primary-dark"
-								/>
-								{remarkPluginFrontmatter.minutesRead}
-							</span>
-						</div>
-
 						{
 							blogImages[coverImagePath] && (
 								<>
@@ -97,11 +62,6 @@ const lastModified = dayjs(remarkPluginFrontmatter.lastModified)
 										alt={title}
 										class="rounded-lg"
 									/>
-									{coverImageCredit && (
-										<p class="mt-2 mb-8 opacity-80 italic text-sm">
-											Image Credit: {coverImageCredit}
-										</p>
-									)}
 								</>
 							)
 						}
@@ -112,20 +72,6 @@ const lastModified = dayjs(remarkPluginFrontmatter.lastModified)
 						<slot />
 					</div>
 
-					<!-- Suggest edit -->
-					<div class="flex justify-between mt-16 gap-4 flex-wrap italic">
-						<a
-							href={`https://github.com/yashjawale/yashjawale.github.io/edit/main/src/content/blog/${slug}.md`}
-							target="_blank"
-							rel="noopener noreferrer"
-							class="hover:underline underline-offset-4 opacity-70 hover:opacity-100"
-							><Icon name="mdi:pencil-outline" class="inline-block" />
-							Suggest an edit
-						</a>
-						<p class="opacity-70">
-							Last modified: {lastModified}
-						</p>
-					</div>
 				</div>
 			</div>
 		</article>

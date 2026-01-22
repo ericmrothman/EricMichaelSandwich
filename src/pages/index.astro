@@ -5,7 +5,7 @@ import { Icon } from 'astro-icon/components'
 import BlogCard from '../components/BlogCard.astro'
 import { getCollection } from 'astro:content'
 
-const posts = (await getCollection('blog'))
+const posts = (await getCollection('work'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	.slice(0, 4)
 ---
@@ -38,11 +38,11 @@ const posts = (await getCollection('blog'))
 
 	<!-- Recent Posts Section -->
 	<section class="app-container">
-		<h2 class="section-title">Recent Posts</h2>
+		<h2 class="section-title">Featured Work</h2>
 		<div class="posts-grid-container">
 			{posts.map((post) => <BlogCard post={post} />)}
 		</div>
-		<a class="btn-secondary" href={`${SITE_BASE}/blog`}
+		<a class="btn-secondary" href={`${SITE_BASE}/work`}
 			>Read All
 			<Icon size={20} name="mdi:arrow-right" />
 		</a>
@@ -50,36 +50,62 @@ const posts = (await getCollection('blog'))
 
 	<!-- Recent Posts Section -->
 	<section class="app-container py-42 grid lg:grid-cols-2 gap-28 lg:gap-10">
-		<div class="space-y-6">
-			<h2 class="section-title">About Me</h2>
-			<p class="text-lg max-w-xl pb-4">
-				A brief introduction about yourself. You can include your profession,
-				hobbies, interests, or anything you'd like visitors to know about you.
-			</p>
-			<a class="btn-secondary" href={`${SITE_BASE}/about`}
-				>Go to About
-				<Icon size={20} name="mdi:arrow-right" />
-			</a>
-		</div>
-		<div class="space-y-6">
-			<h2 class="section-title">Get in touch</h2>
-			<p class="text-lg max-w-xl">
-				Use the buttons below for my resume & email.
-			</p>
-			<div class="flex flex-wrap mt-auto space-x-4">
-				<a
-					class="btn-primary"
-					href="mailto:example@email.com"
-					download
-					target="_blank"
-					>Get in touch
-					<Icon height={20} name="mdi:email" />
-				</a>
-				<a class="btn-secondary" href="https://example.com" target="_blank"
-					>Download Resume
-					<Icon height={20} name="mdi:arrow-collapse-down" />
-				</a>
-			</div>
-		</div>
-	</section>
+
+<div class="space-y-6">
+  <h2 class="section-title">Get in touch</h2>
+
+  <div class="flex flex-col items-start gap-2">
+    
+    <button
+      id="copy-email-btn"
+      class="group relative flex items-center gap-2 text-left hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
+      aria-label="Copy email address"
+    >
+      <span id="default-state" class="flex items-center gap-2 transition-opacity duration-300">
+        <span>ericmrothman@gmail.com</span>
+        <Icon name="mdi:email" class="w-5 h-5" />
+      </span>
+
+      <span
+        id="copied-state"
+        class="absolute inset-0 flex items-center gap-2 text-green-600 opacity-0 pointer-events-none transition-opacity duration-300"
+      >
+        <span>Copied!</span>
+        <Icon name="mdi:check" class="w-5 h-5" />
+      </span>
+    </button>
+
+    <a 
+      href="tel:7185783942" 
+      class="flex items-center gap-2 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+    >
+      <span>718.578.3942</span>
+      <Icon name="mdi:phone" class="w-5 h-5" />
+    </a>
+
+  </div>
+</div>
+
+<script>
+  const copyBtn = document.getElementById('copy-email-btn');
+  const defaultState = document.getElementById('default-state');
+  const copiedState = document.getElementById('copied-state');
+
+  if (copyBtn && defaultState && copiedState) {
+    copyBtn.addEventListener('click', () => {
+      // Copy to clipboard
+      navigator.clipboard.writeText('ericmrothman@gmail.com');
+
+      // Swap opacity to show "Copied!"
+      defaultState.classList.add('opacity-0');
+      copiedState.classList.remove('opacity-0');
+      
+      // Reset after 2 seconds
+      setTimeout(() => {
+        defaultState.classList.remove('opacity-0');
+        copiedState.classList.add('opacity-0');
+      }, 2000);
+    });
+  }
+</script>	</section>
 </BaseLayout>

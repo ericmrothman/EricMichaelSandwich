@@ -10,22 +10,38 @@ const blogImages = import.meta.glob<{ default: ImageMetadata }>(
 	'/src/assets/blogimages/**/*.{jpeg,jpg,png,gif}'
 )
 
+const blogVideos = import.meta.glob<{ default: string }>(
+  '/src/assets/blogimages/**/*.mp4'
+)
+
 const coverImagePath = `/src/assets/blogimages/${post.slug}/cover.jpg`
+const videoPath = `/src/assets/blogimages/${post.slug}/cover.mp4`
+let videoSrc = null;
+if (blogVideos[videoPath]) {
+  const mod = await blogVideos[videoPath]();
+  videoSrc = mod.default;
+}
 ---
 
 <a
-	href={`${SITE_BASE}/blog/${post.slug}/`}
-	class="flex flex-col gap-4 pb-8 h-full group transition-colors"
+  href={`${SITE_BASE}/work/${post.slug}/`}
+  class="flex flex-col gap-4 pb-8 h-full group transition-colors"
 >
-	{
-		blogImages[coverImagePath] && (
-			<Image
-				src={blogImages[coverImagePath]()}
-				alt={post.data.title}
-				class="object-cover rounded-xl aspect-video"
-			/>
-		)
-	}
+  {videoSrc ? (
+    <video
+      src={videoSrc}
+      class="object-cover rounded-xl aspect-video w-full"
+      autoplay
+      loop
+      muted
+      playsinline
+    ></video>
+  ) : (
+     /* Optional Fallback */
+    <div class="bg-gray-100 rounded-xl aspect-video flex items-center justify-center text-gray-400">
+      No Video
+    </div>
+  )}
 	<h4
 		class="text-2xl font-semibold group-hover:text-primary dark:group-hover:text-primary-dark group-hover:underline transition-colors"
 	>
@@ -34,7 +50,5 @@ const coverImagePath = `/src/assets/blogimages/${post.slug}/cover.jpg`
 	<p class="line-clamp-3 opacity-80">
 		{post.data.description}
 	</p>
-	<p class="uppercase text-sm mt-auto tracking-tight">
-		<FormattedDate date={post.data.pubDate} />
-	</p>
+
 </a>

@@ -28,7 +28,7 @@ export const WebsiteLinks = [
 	},
 	{
 		name: 'Work',
-		url: '/blog',
+		url: '/work',
 	},
 	{
 		name: 'About',
