@@ -1,12 +1,11 @@
 ---
-title: 'Miami Valley Meals'
+title: 'Project Guideline'
 description: |
-  An exploration of a Wi-Fi password as a misunderstood work of art, a modern haiku of our times.
-  It’s a tragic tale of deep symbolism, late-night cravings, and guests who just want the internet.
+  Thomas Panek partnered with Google to create an AI guidance system that allows blind athletes to run solo.
 pubDate: 'Aug 21 2026'
-tags: ['non-profit']
+tags: ['commercial work']
 coverImageCredit: ''
-videoLoop: 'miami-valley-meals-loop.mp4'
+videoLoop: 'google-project-guideline-loop.mp4'
 bunnyVideoId: '1517dad8-8171-438c-9093-1a111fa87c07'
 ---
 

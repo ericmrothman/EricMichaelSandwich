@@ -1,9 +1,11 @@
 ---
-title: 'Hatch Architects Design Center'
-description: |
-tags: ['non-profit', 'grant asset']
-pubDate: 'Jan 1 2024'
+title: 'Hatch Architects'
+description: 'A unique summer workshop empowers young people to design and build things.'
+tags: ['non-profit', 'fundraising', 'dayton']
+pubDate: 'Aug 21 2026'
 coverImageCredit: ''
+videoLoop: 'hatch-campdoc-loop.mp4'
+bunnyVideoId: '1517dad8-8171-438c-9093-1a111fa87c07'
 ---
 
 If Monday is a jarring, fluorescent red and Friday is a warm, celebratory gold, then Tuesday is, without a doubt, beige. Not a cozy, cashmere beige, but the specific shade of a 1990s office computer that has yellowed slightly over time. It is the colour of lukewarm tea and spreadsheets that go on forever. It possesses a unique gravitational pull that makes good ideas feel just out of reach. Scientists have yet to study this phenomenon, presumably because they are too busy experiencing it.
