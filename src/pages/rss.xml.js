@@ -5,10 +5,10 @@ export async function GET(context) {
 	const work = await getCollection('work')
 	return rss({
 		// `<title>` field in output xml
-		title: 'Saral Theme',
+		title: 'Eric Michael Sandwich',
 		// `<description>` field in output xml
 		description:
-			'A simple theme for personal blog sites, created for Astro framework',
+			'Filmmaker nerd art man',
 		// Pull in your project "site" from the endpoint context
 		// https://docs.astro.build/en/reference/api-reference/#site
 		site: context.site,

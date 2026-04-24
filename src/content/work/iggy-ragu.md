@@ -11,4 +11,4 @@ bunnyVideoId: '3ae00216-d541-4765-af17-b5b69b9d01da'
 sort: 6
 ---
 
-In what was likely a tragic misallocation of resources (given the man-hours-invested to eventual-view-count ratio) I put my heart and soul into this piece of shortform content for my good friends at the Iggy Ragu food truck. Puppets, high resolution bread photogrammetry, 360 video HDRI lighting references, Blender, voice acting…we really went off the deep end here. Please enjoy, and go track yourself down some bus pesto if you know what’s good for ya’.
+We pulled out all the stops for this piece of shortform content for our good friends at the Iggy Ragu food truck. Puppets made out of bread, bread photogrammetry, HDRIs, Blender, voice acting. You might even say we went off the deep end. Please enjoy, and go track down some bus pesto if you know what’s good for ya’.
